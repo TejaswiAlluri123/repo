@@ -11,12 +11,12 @@ from botocore.exceptions import ClientError
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-#AWS credentials and region
+# AWS credentials and region
 AWS_REGION = os.environ['AWS_REGION']
 S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 SECRETS_CLIENT = boto3.client('secretsmanager', region_name=AWS_REGION)
 
-#Function to retrieve password from AWS Secrets Manager
+# Function to retrieve password from AWS Secrets Manager
 def get_secret(secret_name):
     try:
         response = SECRETS_CLIENT.get_secret_value(SecretId=secret_name)
@@ -26,7 +26,7 @@ def get_secret(secret_name):
         logger.error(f"Error retrieving secret {secret_name}: {e}")
         return None
 
-#Function to execute SQL script on RDS instance
+# Function to execute SQL script on RDS instance
 def execute_sql_on_instance(instance, script, password):
     try:
         conn = pymssql.connect(server=instance['Endpoint']['Address'],
